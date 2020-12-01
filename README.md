@@ -1,5 +1,6 @@
 ### php-mysql-apache containerized
 ### Drzewo katalogowe projektu
+Strukture projektu przedstawiono poniżej
 ```
 /php-mysql-apache/
 ├── apache
@@ -15,7 +16,7 @@
 ```
 ### Docker Compose
 #### docker-compose.yml
-```
+```yaml
 version: "3.2"
 services:
   php:
@@ -66,7 +67,7 @@ volumes:
 ```
 #### Apache
 #### apache/Dockerfile
-```
+```Dockerfile
 FROM httpd:2.4-alpine
 
 RUN apk update; \
@@ -79,6 +80,10 @@ RUN echo "Include /usr/local/apache2/conf/demo.apache.conf" \
 
 
 ```
+Gdy mamy oddzielone obrazy kontenerów dla Apache i PHP, musimy sprawić, by współdziałały ze sobą. Używamy do tego php fpm alpine. Zostanie utworzone połączenie proxy Apache, które wymagają renderowania PHP na porcie 9000 naszego kontenera PHP, a następnie kontener PHP będzie obsługiwał je jako renderowany HTML. Jest to często stosowane rozwiązanie, istnieja także rozwiązania które obsługuje to zachowanie. Przykładowa dokumentacja:
+https://cwiki.apache.org/confluence/display/HTTPD/PHP
+
+By zrealizowaćwybrany sposób potrzebujemy pliku konfiguracyjnego vhost apache, który jest skonfigurowany do przesyłania tych żądań plików PHP do kontenera PHP. Konfiguracja poniżej
 #### apache/demo.apache.conf
 ```
 ServerName localhost
@@ -106,7 +111,7 @@ LoadModule proxy_fcgi_module /usr/local/apache2/modules/mod_proxy_fcgi.so
 
 ### PHP
 #### php/Dockerfile
-```
+```Dockerfile
 FROM php:7.4.3-fpm-alpine
 RUN apk update; \
     apk upgrade;
@@ -115,7 +120,7 @@ RUN docker-php-ext-install mysqli
 ```
 ### MySQL
 #### mysql/Dockerfile
-```
+```Dockerfile
 FROM oraclelinux:7-slim
 
 ARG MYSQL_SERVER_PACKAGE=mysql-community-server-minimal-5.7.32
@@ -136,5 +141,7 @@ VOLUME /var/lib/mysql
 EXPOSE 3306 33060
 CMD ["mysqld"]
 ```
-
-
+#### Przykładowe działanie skryptu php
+<p>
+ <img src="./php.png"/>
+</p>
