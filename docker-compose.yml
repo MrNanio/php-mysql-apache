@@ -23,7 +23,8 @@ services:
       - "./html/:/var/www/html/"
     container_name: apache
   mysql:
-    image: mysql:latest
+    build:
+      context: './mysql/'
     restart: always
     ports:
       - "3306:3306"
