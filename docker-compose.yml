@@ -6,7 +6,7 @@ services:
     networks:
       - backend
     volumes:
-      - "./html/:/var/www/html/"
+      - "./public_html/:/var/www/html/"
     container_name: php
   apache:
     build: 
@@ -20,7 +20,7 @@ services:
     ports:
       - "6666:80"
     volumes:
-      - "./html/:/var/www/html/"
+      - "./public_html/:/var/www/html/"
     container_name: apache
   mysql:
     build:
