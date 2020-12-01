@@ -143,5 +143,5 @@ CMD ["mysqld"]
 ```
 #### Przykładowe działanie skryptu php
 <p>
- <img src="./php.png"/>
+ ![php](https://user-images.githubusercontent.com/33354623/100783804-8aee6d80-340e-11eb-9196-94f9a38ce2d1.png)
 </p>
